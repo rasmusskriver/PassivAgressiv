@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Super Fejlmeldings Tjekker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2c3e50;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+      margin-top: 0;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 14px;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+      resize: vertical;
+    }
+    .button-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    button.secondary {
+      background-color: #95a5a6;
+    }
+    button.secondary:hover {
+      background-color: #7f8c8d;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    .ok {
+      background-color: #d4edda;
+      color: #155724;
+      border-left: 5px solid #28a745;
+    }
+    .partial {
+      background-color: #fff3cd;
+      color: #856404;
+      border-left: 5px solid #ffc107;
+    }
+    .fail {
+      background-color: #f8d7da;
+      color: #721c24;
+      border-left: 5px solid #dc3545;
+    }
+    .result ul {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+    .result li {
+      margin-bottom: 8px;
+    }
+    .progress-container {
+      width: 100%;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      margin: 15px 0;
+      height: 20px;
+      position: relative;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 10px;
+      background-color: #3498db;
+      width: 0%;
+      transition: width 0.5s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .progress-text {
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .hidden {
+      display: none;
+    }
+    .tips {
+      background-color: #e8f4f8;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 14px;
+      border-left: 5px solid #3498db;
+    }
+    .tips h3 {
+      margin-top: 0;
+      color: #2980b9;
+    }
+    .tips ul {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>Super Fejlmeldings Tjekker</h2>
+  <p>Din personlige passive-aggressive assistent til at sikre fejlmeldinger, der ikke får support-teamet til at sukke højlydt!</p>
+  
+  <textarea id="bugReport" placeholder="Indsæt din fejlmelding her... Eller gør som alle andre og skriv 'det virker ikke' og håb på det bedste!"></textarea>
+  
+  <div class="button-container">
+    <button onclick="checkReport()">Tjek Fejlmelding</button>
+    <button class="secondary" onclick="clearReport()">Ryd</button>
+    <button class="secondary" onclick="fillTemplate()">Indsæt Skabelon</button>
+  </div>
+  
+  <div class="progress-container hidden" id="progressContainer">
+    <div class="progress-bar" id="progressBar">
+      <span class="progress-text" id="progressText">0%</span>
+    </div>
+  </div>
+  
+  <div id="result" class="result hidden"></div>
+  
+  <div class="tips">
+    <h3>Tips til en fejlmelding der faktisk er brugbar:</h3>
+    <ul>
+      <li>Inkluder <strong>Summary</strong> - en kort beskrivelse af problemet</li>
+      <li>Beskriv <strong>Expected Result</strong> - hvad burde der ske?</li>
+      <li>List <strong>Steps to reproduce</strong> - så vi kan se fejlen selv</li>
+      <li>Angiv <strong>DocID</strong>, <strong>Username</strong>, <strong>Account number</strong>, <strong>Customer ID</strong> og <strong>Customer number</strong></li>
+    </ul>
+  </div>
+</div>
+
+<script>
+function checkReport() {
+    const text = document.getElementById("bugReport").value;
+    if (text.trim() === "") {
+        showResult("fail", "Åh, en tom fejlmelding. Helt seriøst? Har du også prøvet at ringe til IT-support uden at sige noget og så bare siddet og ventet på at de løste problemet telepatisk?");
+        return;
+    }
+    
+    // Vis progress bar animation
+    const progressContainer = document.getElementById("progressContainer");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+    
+    progressContainer.classList.remove("hidden");
+    progressBar.style.width = "0%";
+    document.getElementById("result").classList.add("hidden");
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 5;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${progress}%`;
+        
+        if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+                progressContainer.classList.add("hidden");
+                evaluateReport(text);
+            }, 200);
+        }
+    }, 50);
+}
+
+function evaluateReport(text) {
+    const required = {
+        "Summary:": "Åh, en fejlmelding uden en kort beskrivelse? Det er ligesom at spille gæt-en-fejl. Spændende... hvis man er synsk!",
+        "Expected Result:": "Forventede resultat mangler? Forventede du virkelig at support skulle gætte hvad der skulle ske? De har desværre udsolgt af krystalkugler i denne uge.",
+        "Steps to reproduce": "Steps to reproduce mangler... Måske support-teamet kan gennemføre en seance for at kontakte åndeverdenen og få hint om hvordan fejlen kan genskabes?",
+        "DocID:": "Ingen DocID? Skal vi bare gennemsøge vores 468.352 dokumenter manuelt? Det lyder som en hyggelig fredag eftermiddag!",
+        "Username": "Username mangler. Supporten elsker at lege detektiv! Måske vi skulle ringe til alle brugere én efter én?",
+        "Account number": "Account number er åbenbart en hemmelighed. Vi kan jo bare prøve alle kontonumre indtil vi rammer rigtigt!",
+        "Customer ID": "Customer ID er væk. Det gør absolut ingenting... hvis du synes en fejlfinding skal føles som at finde en specifik sandkorn på en strand.",
+        "Customer number": "Customer number? Pfft, hvem har brug for det... udover, du ved, alle der faktisk skal hjælpe dig med dit problem."
+    };
+    
+    let missing = [];
+    let found = [];
+    for (const [key, msg] of Object.entries(required)) {
+        if (!text.includes(key)) {
+            missing.push(msg);
+        } else {
+            found.push(key);
+        }
+    }
+    
+    let resultElement = document.getElementById("result");
+    resultElement.classList.remove("hidden");
+    
+    const totalFields = Object.keys(required).length;
+    const completionRate = found.length / totalFields;
+    
+    if (missing.length === 0) {
+        resultElement.className = "result ok";
+        resultElement.innerHTML = "✅ <strong>MIRAKEL!</strong> En fejlmelding der faktisk giver mening! Support-teamet vil næsten falde bagover af overraskelse. Du må være den mytiske 'kompetente bruger' de altid taler om ved kaffemaskinen!";
+    } else if (completionRate >= 0.6) {
+        resultElement.className = "result partial";
+        resultElement.innerHTML = `⚠️ <strong>Næsten der...</strong> Din fejlmelding er ${Math.round(completionRate * 100)}% komplet. Du er tættere på at være hjælpsom end de fleste, men der mangler stadig nogle detaljer:<ul>` +
+                                  missing.map(item => `<li>${item}</li>`).join('') +
+                                  "</ul>";
+    } else {
+        resultElement.className = "result fail";
+        resultElement.innerHTML = `❌ <strong>Suk...</strong> Denne fejlmelding er omtrent lige så hjælpsom som en chokoladetekedel. Den er kun ${Math.round(completionRate * 100)}% komplet. Der mangler kritiske detaljer:<ul>` +
+                                  missing.map(item => `<li>${item}</li>`).join('') +
+                                  "</ul>";
+    }
+}
+
+function clearReport() {
+    document.getElementById("bugReport").value = "";
+    document.getElementById("result").classList.add("hidden");
+    document.getElementById("progressContainer").classList.add("hidden");
+}
+
+function fillTemplate() {
+    document.getElementById("bugReport").value = `Summary: [Kort beskrivelse af problemet]
+
+Expected Result: [Hvad burde der ske]
+
+Steps to reproduce:
+1. [Første trin]
+2. [Andet trin]
+3. [Tredje trin]
+
+DocID: [Dokument ID]
+Username: [Bruger der oplever problemet]
+Account number: [Konto nummer]
+Customer ID: [Kunde ID]
+Customer number: [Kunde nummer]
+
+Yderligere detaljer:
+[Eventuelle andre relevante oplysninger]`;
+}
+
+function showResult(type, message) {
+    let resultElement = document.getElementById("result");
+    resultElement.className = `result ${type}`;
+    resultElement.innerHTML = message;
+    resultElement.classList.remove("hidden");
+}
+</script>
+</body>
+</html>
