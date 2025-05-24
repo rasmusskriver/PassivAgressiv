@@ -8,20 +8,20 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f8f9fa; /* Lidt lysere baggrund */
-            color: #343a40; /* Lidt mørkere tekst */
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #23272f;
         }
         .container {
             max-width: 800px;
             margin: 20px auto; /* Lidt mere luft i toppen */
-            background: white;
+            background: #fff;
             padding: 30px; /* Lidt mere padding */
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* Lidt tydeligere skygge */
+            box-shadow: 0 6px 24px rgba(44,62,80,0.10); /* Lidt tydeligere skygge */
         }
         h2 {
-            color: #0056b3; /* Mørkere blå */
-            border-bottom: 3px solid #007bff; /* Lidt tykkere bundstreg */
+            color: #6c63ff; /* Mørkere blå */
+            border-bottom: 3px solid #43e6d6; /* Lidt tykkere bundstreg */
             padding-bottom: 10px;
             margin-top: 0;
             margin-bottom: 20px; /* Mere plads under overskriften */
@@ -30,8 +30,9 @@
             width: 100%;
             height: 250px; /* Lidt højere */
             padding: 15px; /* Mere padding */
-            border: 1px solid #ced4da; /* Standard bootstrap grå */
-            border-radius: 4px;
+            border: 1.5px solid #bdbdbd;
+            border-radius: 8px;
+            background: #f7fafd;
             font-family: inherit;
             font-size: 15px; /* Lidt større skrift */
             box-sizing: border-box;
@@ -39,7 +40,7 @@
             resize: vertical;
         }
         textarea::placeholder {
-            color: #6c757d; /* Lidt mørkere placeholder */
+            color: #a0aec0; /* Lidt mørkere placeholder */
             font-style: italic;
         }
         .button-container {
@@ -49,27 +50,30 @@
             margin-bottom: 25px;
         }
         button {
-            background-color: #007bff; /* Klar blå */
-            color: white;
+            background: linear-gradient(90deg, #6c63ff 0%, #43e6d6 100%);
+            color: #fff;
             border: none;
-            padding: 12px 18px; /* Lidt større knapper */
-            border-radius: 5px;
+            padding: 14px 22px; /* Lidt større knapper */
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 15px; /* Match textarea */
-            transition: background-color 0.2s, transform 0.1s;
+            font-weight: 600;
+            font-size: 16px; /* Match textarea */
+            box-shadow: 0 2px 8px rgba(67,230,214,0.08);
+            transition: background 0.2s, transform 0.1s;
         }
         button:hover {
-            background-color: #0056b3; /* Mørkere blå ved hover */
+            background: linear-gradient(90deg, #43e6d6 0%, #6c63ff 100%);
         }
         button:active {
             transform: scale(0.98); /* Lille tryk-effekt */
         }
         button.secondary {
-            background-color: #6c757d; /* Grå */
+            background: #e0e7ef; /* Grå */
+            color: #6c63ff;
         }
         button.secondary:hover {
-            background-color: #5a6268; /* Mørkere grå ved hover */
+            background: #d1d8e6; /* Mørkere grå ved hover */
+            color: #43e6d6;
         }
         .result {
             margin-top: 25px;
@@ -84,20 +88,20 @@
              opacity: 1;
              transform: translateY(0);
         }
-        .ok {
-            background-color: #d1e7dd; /* Lysere grøn */
-            color: #0f5132; /* Mørkere grøn tekst */
-            border-color: #198754; /* Grøn kant */
+        .result.ok {
+            background: #e6f9f2;
+            color: #1b5e20;
+            border-color: #43e6d6;
         }
-        .partial {
-            background-color: #fff3cd; /* Lys gul */
-            color: #664d03; /* Mørkere gul tekst */
-            border-color: #ffc107; /* Gul kant */
+        .result.partial {
+            background: #fffbe6;
+            color: #b59f3b;
+            border-color: #ffe066;
         }
-        .fail {
-            background-color: #f8d7da; /* Lys rød */
-            color: #842029; /* Mørkere rød tekst */
-            border-color: #dc3545; /* Rød kant */
+        .result.fail {
+            background: #ffe6e9;
+            color: #b71c1c;
+            border-color: #ff6f91;
         }
         .result ul {
             margin-top: 12px;
@@ -109,7 +113,7 @@
         }
         .progress-container {
             width: 100%;
-            background-color: #e9ecef; /* Lys grå baggrund */
+            background: #e3e8f0;
             border-radius: 10px;
             margin: 20px 0;
             height: 22px; /* Lidt højere */
@@ -119,7 +123,7 @@
         .progress-bar {
             height: 100%;
             border-radius: 10px 0 0 10px; /* Kun runde hjørner i starten */
-            background-color: #007bff; /* Match knapfarve */
+            background: linear-gradient(90deg, #6c63ff 0%, #43e6d6 100%);
             width: 0%;
             transition: width 0.5s ease-in-out;
             display: flex;
@@ -136,17 +140,17 @@
             display: none;
         }
         .tips {
-            background-color: #e2f0fb; /* Lysere blå */
+            background: #f3f0ff;
             padding: 18px;
             border-radius: 5px;
             margin-top: 30px;
             font-size: 14px;
-            border-left: 6px solid #007bff; /* Match knapfarve */
+            border-left: 6px solid #6c63ff; /* Match knapfarve */
         }
         .tips h3 {
             margin-top: 0;
             margin-bottom: 15px; /* Mere plads under tip-overskrift */
-            color: #0056b3; /* Match overskrift */
+            color: #6c63ff; /* Match overskrift */
         }
         .tips ul {
             padding-left: 20px;
